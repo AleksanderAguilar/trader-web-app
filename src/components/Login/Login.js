@@ -1,14 +1,14 @@
 import  { useNavigate } from 'react-router-dom';
 
-import { useRef, useState, useEffect, useContext } from 'react';
-import useAuth from '../../hooks/useAuth';
+import { useRef, useState, useEffect } from 'react';
+import { useAuthUpdate} from '../../hooks/useAuth';
 import axios from '../../api/axios';
 const LOGIN_URL = 'api/v1/users/login'
 
 const Login = () => {
     const userRef = useRef();
     const errRef = useRef();
-    const { setAuth } = useAuth(); 
+    const { setAuthInfo } = useAuthUpdate();
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -37,21 +37,16 @@ const Login = () => {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 });
-                
+                setAuthInfo(response.data.token, response.data.role, response.data.email );
                 console.log(response.data)
-                setAuth({
-                    email: response.data.email,
-                    token: response.data.token,
-                    role: response.data.role
-                });
 
-                navigate('/home');
+                navigate('/user');
                 
 
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server response');
-            }else if (err.response = 401) {
+            } else if (err.response = 401) {
                 setErrMsg ('Incorrect Username or password');
             } else {
                 setErrMsg ('Login Failed')
