@@ -1,17 +1,30 @@
-import Register from './Pages/Register/Register'
-import Home from './Pages/Home/Home'
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Register from './components/Register/Register'
+import Home from './components/Home/Home'
+import TestPage from './components/TestingPage';
+import Layout from './components/Layout';
+import Login from './components/Login/Login';
+import Admin from './components/Admin/Admin';
+import RequireAuth from './components/RequireAuth';
+import {  Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-      <BrowserRouter>
-      <Routes>          
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+
+            <Route path="/testingPage" element={<TestPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route element={<RequireAuth />}>
+              <Route path="/admin" element={<Admin />} />
+            </Route>
+          </Route>
+    </Routes>
+
+
+
   );
 }
 

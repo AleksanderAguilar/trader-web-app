@@ -71,7 +71,7 @@ function Register() {
             last_name: lastName
         };
         try {
-            const response = await axios.post('/', userData)
+            const response = await axios.post(REGISTRATION_URL, userData)
             setSuccess(true)
             
         } catch (err) {
@@ -91,7 +91,6 @@ function Register() {
                 </div>
             ) : (
                 <div>
-                    {/* error message */}
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Register Page</h1>
                     <form>
@@ -171,10 +170,6 @@ function Register() {
                             <a href="/">Sign In</a>
                         </span>
                     </p>
-
-                    {/* <button onClick={setSuccess(true)}>
-                        test succes
-                    </button> */}
                 </div>
             )}
         </>
