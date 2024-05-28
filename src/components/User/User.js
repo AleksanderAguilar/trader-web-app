@@ -1,27 +1,18 @@
-import { useAuth } from "../../hooks/useAuth";
-
+import React from "react";
+import { useSelector } from "react-redux";
 
 const User = () => {
-    const auth = useAuth();
+    
+    const token = useSelector((state) => state.user.token);
 
     return (
         <>
-            {auth.token ? (
+           
                 <div>
                     <h1>USER Info</h1>
-
-                    <div>
-                        <p>Email: {auth.email}</p>
-                        <p>Role: {auth.role}</p>
-                        <p>Token: {auth.token}</p>
-                    </div>
-
+                    <p>{token}</p>
+                    
                 </div>
-            ) : (
-                <div>
-                    <h1>No User Information</h1>
-                </div>
-                )}
         
         </>
     );

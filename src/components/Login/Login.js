@@ -1,18 +1,18 @@
-import  { useNavigate } from 'react-router-dom';
-
-import { useRef, useState, useEffect } from 'react';
-import { useAuthUpdate} from '../../hooks/useAuth';
+import { useRef, useState, useEffect,  } from 'react';
 import axios from '../../api/axios';
-const LOGIN_URL = 'api/v1/users/login'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../reducer/userSlice';
+import { useNavigate } from 'react-router-dom';
 
+const LOGIN_URL = 'api/v1/users/login'
 const Login = () => {
+    const dispatch = useDispatch();
     const userRef = useRef();
     const errRef = useRef();
-    const { setAuthInfo } = useAuthUpdate();
-    const [user, setUser] = useState('');
+    const navigate = useNavigate();
+    const [loginUser, setLofingUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (userRef.current) {
@@ -23,25 +23,27 @@ const Login = () => {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd])
+    }, [loginUser, pwd])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-
         try {
             const response = await axios.post(LOGIN_URL,
                 
-                JSON.stringify({email : user, password: pwd }),
+                JSON.stringify({email : loginUser, password: pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 });
-                setAuthInfo(response.data.token, response.data.role, response.data.email );
-                console.log(response.data)
 
-                navigate('/user');
+                const info = {
+                    token: response.data.token,
+                    email: response.data.email,
+                    role: response.data.role,
+                }; 
                 
+                dispatch(setUser(info));
+                navigate('/user')
 
         } catch (err) {
             if (!err?.response) {
@@ -65,10 +67,10 @@ const Login = () => {
                         <input
                             type="text"
                             id="username"
-                            ref={userRef}
+                            ref={userRef}a
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            onChange={(e) => setLofingUser(e.target.value)}
+                            value={loginUser}
                             required
                         />
 

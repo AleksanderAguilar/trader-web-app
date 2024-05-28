@@ -6,11 +6,13 @@ import Login from './components/Login/Login';
 import Admin from './components/Admin/Admin';
 import User from './components/User/User';
 import {  Routes, Route, BrowserRouter } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store/store';
 function App() {
   return (
+    <Provider store={store}>
     <BrowserRouter>
     <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/user" element={<User />} />
 
@@ -21,6 +23,7 @@ function App() {
 
     </Routes>
     </BrowserRouter>
+    </Provider>
   );
 }
 
